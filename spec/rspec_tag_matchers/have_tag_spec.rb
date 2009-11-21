@@ -1,4 +1,5 @@
-require File.dirname(__FILE__) + '/../spec_helper'
+# coding: utf-8
+require File.join(File.dirname(__FILE__), *%w[.. spec_helper])
 
 describe 'have_tag' do
   before(:each) do

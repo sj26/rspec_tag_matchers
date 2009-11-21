@@ -1,4 +1,6 @@
-module RspecHpricotMatchers
+# coding: utf-8
+
+module RspecTagMatchers
   class HaveTag
     def initialize(selector, inner_text_or_options, options, &block)
       @selector = selector
