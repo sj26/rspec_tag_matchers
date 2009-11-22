@@ -1,0 +1,105 @@
+h1. RSPEC_TAG_MATCHER
+
+_Implementation of *have_tag()* RSpec matcher using *Nokogiri*._
+
+h2. Description
+
+An implementation of rspec_on_rails' @have_tag()@ matcher which does not depend on Rails' @assert_select()@. Using *Nokogiri* instead, the matcher is available to non-Rails projects, and enjoys the full flexibility of Nokogiri's advanced and blazing fast CSS and XPath selector support.
+
+h2. Installation
+
+*Gem:*
+
+<pre>sudo gem install rspec_tag_matchers --source http://gemcutter.org</pre>
+
+*Dependencies:*
+
+* "rspec":http://github.com/dchelimsky/rspec (stating the obvious)
+
+*Configuration*
+
+In @spec_helper.rb@:
+
+<pre>
+  require 'rspec_tag_matchers'
+  
+  Spec::Runner.configure do |config|
+    config.include(RspecTagMatchers)
+  end
+</pre>
+
+h2. Usage
+
+As its first argument, @have_tag()@ accepts any CSS or XPath selectors which are supported by *Nokogiri*.
+
+<pre>
+  body.should have_tag('form[@action*=session]')
+  body.should have_tag('ul > li + li')
+</pre>
+
+Expectations can be placed upon the inner text of the matched element by providing another argument, which should be either a @String@ or a @Regexp@:
+
+<pre>
+  body.should have_tag('h1', 'Welcome')
+  body.should have_tag('p', /a very important blurb/i)
+</pre>
+  
+Expectations can be placed upon the number of matched elements by passing an options hash:
+
+<pre>
+  body.should have_tag('abbr', :count => 1)   # exactly one
+  body.should have_tag('dt',   :minimum => 4) # at least 4
+  body.should have_tag('dd',   :maximum => 4) # at most 4
+  body.should have_tag('a.outgoing', /rspec/i, :count => 2)
+</pre>
+  
+The @:count@ key also accepts a @Range@, making the following equivalent:
+
+<pre>
+  body.should have_tag('tr', :count => 3..5)
+  body.should have_tag('tr', :minimum => 3, :maximum => 5)
+</pre>
+
+The usage of @with_tag()@, however, is no longer supported. Instead, a block passed to @have_tag()@ will have each matched element successively yielded to it. If none of the blocks return without raising an @ExpectationNotMetError@, the outer @have_tag()@ is treated as having failed:
+
+<pre>
+  body.should have_tag('thead') do |thead|
+    thead.should have_tag('th', :count => 5)
+  end
+</pre>
+  
+This also allows arbitrary expectations to be applied from within the block, such as:
+
+<pre>
+  body.should have_tag('dl dd.sha1') do |dd|
+    dd.inner_text.length.should == 40
+  end
+</pre>
+
+h2. Notes
+
+Currently, this implementation does not support substitution values as assert_select did (by way of @HTML::Selector@):
+
+*Note supported:*
+
+<pre>
+body.should have_tag('li[class=?]', dom_class)
+body.should have_tag('tr.person#?', /^person-\d+$/)
+</pre>
+
+I (Kyle Hargraves, original author) rarely use these, and Hpricot's advanced selectors make them mostly useless, as far as I can tell, so I am unlikely to implement them myself.
+
+This @have_tag()@ further differs from the @assert_select@-based implementation in that the nested @have_tag()@ calls must *all* pass on a single selected element in order to be true. This was a source of confusion in RSpec ticket #316. There is a spec covering this case if you need an example.
+
+h2. Origin
+
+This project was originally forked from:
+
+"http://github.com/cjohansen/validatious-on-rails":http://github.com/pd/rspec_hpricot_matchers
+
+h2. License
+
+*Original work:*
+
+Released under the MIT license.<br />
+Copyright (c) 2008 "Kyle Hargraves":http://github.com/pd

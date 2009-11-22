@@ -26,7 +26,7 @@ END
 HOMEPAGE = "http://github.com/grimen/#{NAME}"
 AUTHOR = "Kyle Hargraves"
 EMAIL = "pd@krh.me"
-SUPPORT_FILES = %w(README)
+SUPPORT_FILES = %w(README.textile)
 
 begin
   gem 'jeweler', '>= 1.0.0'
