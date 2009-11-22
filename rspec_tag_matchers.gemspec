@@ -19,14 +19,14 @@ Gem::Specification.new do |s|
   s.email = %q{pd@krh.me}
   s.extra_rdoc_files = [
     "MIT-LICENSE",
-     "README",
+     "README.textile",
      "Rakefile",
      "lib/rspec_tag_matchers.rb",
      "lib/rspec_tag_matchers/have_tag.rb"
   ]
   s.files = [
     "MIT-LICENSE",
-     "README",
+     "README.textile",
      "Rakefile",
      "lib/rspec_tag_matchers.rb",
      "lib/rspec_tag_matchers/have_tag.rb"
