@@ -95,7 +95,7 @@ h2. Origin
 
 This project was originally forked from:
 
-"http://github.com/cjohansen/validatious-on-rails":http://github.com/pd/rspec_hpricot_matchers
+"http://github.com/pd/rspec_hpricot_matchers":http://github.com/pd/rspec_hpricot_matchers
 
 h2. License
 
