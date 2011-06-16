@@ -68,7 +68,7 @@ module RspecTagMatchers
         elements.select do |el|
           begin
             block.call(el)
-          rescue Spec::Expectations::ExpectationNotMetError
+          rescue RSpec::Expectations::ExpectationNotMetError
             false
           else
             true
