@@ -11,6 +11,7 @@ module RspecTagMatchers
         @inner_text = inner_text_or_options
         @options = options
       end
+      @block = block
     end
 
     def matches?(actual, &block)
@@ -26,6 +27,7 @@ module RspecTagMatchers
         matched_elements = filter_on_inner_text(matched_elements)
       end
 
+      block ||= @block
       if block
         matched_elements = filter_on_nested_expectations(matched_elements, block)
       end
